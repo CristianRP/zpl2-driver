@@ -47,7 +47,7 @@ public enum ZebraCommonCodes {
      * determining bar code size, position, and
      * inclination.
      */
-    QR_CODE("BQ", "QR Code BarCode");
+    QR_CODE("BQ", "QR Code BarCode"),
 
     /**
      * ^FO Field Origin command sets a field origin, relative to the label home (^LH) position.
