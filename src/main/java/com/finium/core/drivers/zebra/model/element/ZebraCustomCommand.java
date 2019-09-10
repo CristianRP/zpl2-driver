@@ -11,6 +11,11 @@
 package com.finium.core.drivers.zebra.model.element;
 
 import static com.finium.core.drivers.zebra.zpl.command.ZebraCommonCodes.FIELD_ORIGIN;
+import com.finium.core.drivers.zebra.model.PrinterOptions;
+import com.finium.core.drivers.zebra.model.ZebraElement;
+import com.finium.core.drivers.zebra.zpl.enums.ZebraFont;
+import com.finium.core.drivers.zebra.zpl.enums.ZebraRotation;
+import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
 
 public class ZebraCustomCommand {
     private String command;
