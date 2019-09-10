@@ -1,6 +1,6 @@
 /*
  * Copyright © 2016, Finium Sdn Bhd, All Rights Reserved
- * 
+ *
  * ZebraNativeZpl.java
  * Modification History
  * *************************************************************
@@ -14,22 +14,20 @@ import com.finium.core.drivers.zebra.model.ZebraElement;
 
 /**
  * Object use if you want add Zpl Code not supported by this library
- * 
+ *
  * @author Venkaiah Chowdary Koneru
- * 
  */
 public class ZebraNativeZpl extends ZebraElement {
 
     private String zplCode;
 
     /**
-     * 
      * @param zplCode
      */
     public ZebraNativeZpl(String zplCode) {
-	super();
-	this.zplCode = zplCode;
-	this.defaultDrawGraphic = false;
+        super();
+        this.zplCode = zplCode;
+        this.defaultDrawGraphic = false;
     }
 
     /**
@@ -37,6 +35,6 @@ public class ZebraNativeZpl extends ZebraElement {
      */
     @Override
     public String getZplCode() {
-	return zplCode;
+        return zplCode;
     }
 }

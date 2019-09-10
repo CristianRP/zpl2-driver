@@ -1,6 +1,6 @@
 /*
  * Copyright © 2016, Finium Sdn Bhd, All Rights Reserved
- * 
+ *
  * RecallFormat.java
  * Modification History
  * *************************************************************
@@ -41,7 +41,7 @@ import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
  * Value: if a name is not specified, UNKNOWN is used<br>
  * x = extension. Default Format: .ZPL<br>
  * </code>
- * 
+ *
  * @author Venkaiah Chowdary Koneru
  */
 public class RecallFormat {
@@ -51,98 +51,93 @@ public class RecallFormat {
     private Map<String, String> fieldNumbers;
 
     /**
-     * 
+     *
      */
     public RecallFormat(String imageName) {
-	if (imageName != null && imageName.trim().isEmpty()) {
-	    this.imageName = imageName.trim();
-	}
+        if (imageName != null && imageName.trim().isEmpty()) {
+            this.imageName = imageName.trim();
+        }
     }
 
     /**
      * @return the deviceToStoreImage
      */
     public String getDeviceToStoreImage() {
-	return deviceToStoreImage;
+        return deviceToStoreImage;
     }
 
     /**
-     * @param deviceToStoreImage
-     *            the deviceToStoreImage to set
+     * @param deviceToStoreImage the deviceToStoreImage to set
      */
     public void setDeviceToStoreImage(String deviceToStoreImage) {
-	this.deviceToStoreImage = deviceToStoreImage;
+        this.deviceToStoreImage = deviceToStoreImage;
     }
 
     /**
      * @return the imageName
      */
     public String getImageName() {
-	return imageName;
+        return imageName;
     }
 
     /**
-     * @param imageName
-     *            the imageName to set
+     * @param imageName the imageName to set
      */
     public void setImageName(String imageName) {
-	if (imageName != null && imageName.trim().isEmpty()) {
-	    this.imageName = imageName.trim();
-	} else {
-	    this.imageName = "UNKNOWN";
-	}
+        if (imageName != null && imageName.trim().isEmpty()) {
+            this.imageName = imageName.trim();
+        } else {
+            this.imageName = "UNKNOWN";
+        }
     }
 
     /**
      * @return the extension
      */
     public String getExtension() {
-	return extension;
+        return extension;
     }
 
     /**
-     * @param extension
-     *            the extension to set
+     * @param extension the extension to set
      */
     public void setExtension(String extension) {
-	this.extension = extension;
+        this.extension = extension;
     }
 
     /**
      * @return the fieldNumbers
      */
     public Map<String, String> getFieldNumbers() {
-	return fieldNumbers;
+        return fieldNumbers;
     }
 
     /**
-     * @param fieldNumbers
-     *            the fieldNumbers to set
+     * @param fieldNumbers the fieldNumbers to set
      */
     public void setFieldNumbers(Map<String, String> fieldNumbers) {
-	this.fieldNumbers = fieldNumbers;
+        this.fieldNumbers = fieldNumbers;
     }
 
     /**
-     * 
      * @return
      */
     public String getZplCode() {
-	StringBuilder zpl = new StringBuilder(ZplUtils.zplCommandSautLigne(START_FMT.name()));
-	zpl.append(ZplUtils.zplCommand(RECALL_FORMAT.name()));
-	zpl.append(this.deviceToStoreImage);
-	zpl.append(this.imageName);
-	zpl.append(this.extension);
-	zpl.append("\n");
+        StringBuilder zpl = new StringBuilder(ZplUtils.zplCommandSautLigne(START_FMT.getCode()));
+        zpl.append(ZplUtils.zplCommand(RECALL_FORMAT.getCode()));
+        zpl.append(this.deviceToStoreImage);
+        zpl.append(this.imageName);
+        zpl.append(this.extension);
+        zpl.append("\n");
 
-	fieldNumbers.forEach((key, value) -> {
-	    zpl.append(ZplUtils.zplCommand(key));
-	    zpl.append(ZplUtils.zplCommand(FIELD_DATA.name()));
-	    zpl.append(value);
-	    zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.name()));
-	});
-	zpl.append(ZplUtils.zplCommandSautLigne(END_FMT.name()));
+        fieldNumbers.forEach((key, value) -> {
+            zpl.append(ZplUtils.zplCommand(key));
+            zpl.append(ZplUtils.zplCommand(FIELD_DATA.getCode()));
+            zpl.append(value);
+            zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.getCode()));
+        });
+        zpl.append(ZplUtils.zplCommandSautLigne(END_FMT.getCode()));
 
-	return zpl.toString();
+        return zpl.toString();
     }
 }

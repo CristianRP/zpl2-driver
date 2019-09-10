@@ -1,14 +1,23 @@
 /*
  * Copyright © 2016, Finium Sdn Bhd, All Rights Reserved
- * 
+ *
  * ZebraQRCode.java
  * Modification History
  * *************************************************************
- * Date			Author		Comment
+ * Date			    Author		                    Comment
  * 31-Jan-2016		Venkaiah Chowdary Koneru		Created
+ * 02-Sept-2019     Cristian Ramírez                Modified
  * *************************************************************
  */
 package com.finium.core.drivers.zebra.model.element;
+
+import com.finium.core.drivers.zebra.model.ZebraElement;
+import com.finium.core.drivers.zebra.zpl.enums.QRCodeCharacterMode;
+import com.finium.core.drivers.zebra.zpl.enums.QRCodeDataInputMode;
+import com.finium.core.drivers.zebra.zpl.enums.QRCodeErrorCorrection;
+import com.finium.core.drivers.zebra.zpl.enums.QRCodeModel;
+import com.finium.core.drivers.zebra.zpl.enums.ZebraRotation;
+import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
 
 import static com.finium.core.drivers.zebra.zpl.command.ZebraCommonCodes.FIELD_DATA;
 import static com.finium.core.drivers.zebra.zpl.command.ZebraCommonCodes.FIELD_SEPERATOR;
@@ -18,14 +27,6 @@ import static com.finium.core.drivers.zebra.zpl.enums.QRCodeDataInputMode.M;
 import static com.finium.core.drivers.zebra.zpl.enums.QRCodeErrorCorrection.STANDARD;
 import static com.finium.core.drivers.zebra.zpl.enums.QRCodeModel.MODEL2;
 import static com.finium.core.drivers.zebra.zpl.enums.ZebraRotation.NORMAL;
-
-import com.finium.core.drivers.zebra.model.ZebraElement;
-import com.finium.core.drivers.zebra.zpl.enums.QRCodeCharacterMode;
-import com.finium.core.drivers.zebra.zpl.enums.QRCodeDataInputMode;
-import com.finium.core.drivers.zebra.zpl.enums.QRCodeErrorCorrection;
-import com.finium.core.drivers.zebra.zpl.enums.QRCodeModel;
-import com.finium.core.drivers.zebra.zpl.enums.ZebraRotation;
-import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
 
 /**
  * This command produces a matrix symbology consisting of an array of nominally
@@ -77,52 +78,142 @@ import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
  * </ul>
  * e = mask value. Accepted Values: <b>0</b> - <b>7</b>. Default Value:
  * <b>7</b> </code>
- * 
+ *
  * @author Venkaiah Chowdary Koneru
+ * <p>
+ * Modified and reformatted by Cristian Ramírez
  */
 public class ZebraQRCode extends ZebraElement {
-    private ZebraRotation zebraRotation = NORMAL;
-    private QRCodeModel model = MODEL2;
-    private QRCodeDataInputMode inputMode = M;
-    private QRCodeCharacterMode characterMode = A;
-    private QRCodeErrorCorrection errorCorrection = STANDARD;
+    private ZebraRotation zebraRotation;
+    private QRCodeModel model;
+    private QRCodeDataInputMode inputMode;
+    private QRCodeCharacterMode characterMode;
+    private QRCodeErrorCorrection errorCorrection;
+    private String magnification; // Values for magnification are from 0 to 10, check the Zebra docs
 
     private String text;
 
     /**
-     * @param text
+     * @param text and load default config
      */
     public ZebraQRCode(String text) {
-	this.text = text;
+        this.zebraRotation = NORMAL;
+        this.model = MODEL2;
+        this.inputMode = M;
+        this.characterMode = A;
+        this.errorCorrection = STANDARD;
+        this.magnification = "";
+        this.text = text;
+    }
+
+    /**
+     * @param text and load default config
+     * @param magnification values are from 0 to 10, check the Zebra docs
+     */
+    public ZebraQRCode(String text, String magnification) {
+        this.zebraRotation = NORMAL;
+        this.model = MODEL2;
+        this.inputMode = M;
+        this.characterMode = A;
+        this.errorCorrection = STANDARD;
+        this.magnification = magnification;
+        this.text = text;
+    }
+
+    public ZebraQRCode(ZebraRotation zebraRotation, QRCodeModel model, QRCodeDataInputMode inputMode, QRCodeCharacterMode characterMode, QRCodeErrorCorrection errorCorrection, String magnification, String text) {
+        this.zebraRotation = zebraRotation;
+        this.model = model;
+        this.inputMode = inputMode;
+        this.characterMode = characterMode;
+        this.errorCorrection = errorCorrection;
+        this.magnification = magnification;
+        this.text = text;
     }
 
     /**
      * Return Zpl code for this Element
-     * 
+     *
      * @return
      */
     @Override
     public String getZplCode() {
-	StringBuilder zpl = new StringBuilder(ZplUtils.zplCommand(QR_CODE.getCode()));
-	zpl.append(zebraRotation.getLetter());
-	zpl.append(",");
-	zpl.append(model.getModel());
-	zpl.append(",");
-	zpl.append(","); // Leave blank for maginification factor
-	zpl.append(errorCorrection.getLetter());
-	zpl.append("\n");
-	zpl.append(ZplUtils.zplCommand(FIELD_DATA.getCode()));
-	zpl.append(errorCorrection.getLetter());
-	zpl.append(inputMode.name());
-	zpl.append(",");
+        StringBuilder zpl = new StringBuilder(ZplUtils.zplCommand(QR_CODE.getCode()));
+        zpl.append(zebraRotation.getLetter());
+        zpl.append(",");
+        zpl.append(model.getModel());
+        zpl.append(",");
+        zpl.append(magnification +",");
+        zpl.append(errorCorrection.getLetter());
+        zpl.append("\n");
+        zpl.append(ZplUtils.zplCommand(FIELD_DATA.getCode()));
+        zpl.append(errorCorrection.getLetter());
+        zpl.append(inputMode.name());
+        zpl.append(",");
 
-	if (inputMode.equals(QRCodeDataInputMode.M)) {
-	    zpl.append(characterMode.name());
-	}
+        if (inputMode.equals(QRCodeDataInputMode.M)) {
+            zpl.append(characterMode.name());
+        }
 
-	zpl.append(text);
-	zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.name()));
+        zpl.append(text);
+        zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.getCode()));
 
-	return zpl.toString();
+        return zpl.toString();
+    }
+
+
+    public ZebraRotation getZebraRotation() {
+        return zebraRotation;
+    }
+
+    public void setZebraRotation(ZebraRotation zebraRotation) {
+        this.zebraRotation = zebraRotation;
+    }
+
+    public QRCodeModel getModel() {
+        return model;
+    }
+
+    public void setModel(QRCodeModel model) {
+        this.model = model;
+    }
+
+    public QRCodeDataInputMode getInputMode() {
+        return inputMode;
+    }
+
+    public void setInputMode(QRCodeDataInputMode inputMode) {
+        this.inputMode = inputMode;
+    }
+
+    public QRCodeCharacterMode getCharacterMode() {
+        return characterMode;
+    }
+
+    public void setCharacterMode(QRCodeCharacterMode characterMode) {
+        this.characterMode = characterMode;
+    }
+
+    public QRCodeErrorCorrection getErrorCorrection() {
+        return errorCorrection;
+    }
+
+    public void setErrorCorrection(QRCodeErrorCorrection errorCorrection) {
+        this.errorCorrection = errorCorrection;
+    }
+
+    public String getMagnification() {
+        return magnification;
+    }
+
+    public void setMagnification(String magnification) {
+        this.magnification = magnification;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

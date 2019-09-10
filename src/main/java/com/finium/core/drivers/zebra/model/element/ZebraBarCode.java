@@ -1,6 +1,6 @@
 /*
  * Copyright © 2016, Finium Sdn Bhd, All Rights Reserved
- * 
+ *
  * ZebraBarCode.java
  * Modification History
  * *************************************************************
@@ -21,9 +21,9 @@ import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
 
 /**
  * Abstract Zebra element to represent a bar code instruction
- * 
+ * <p>
  * Command ZPL : All instruction starting ^B
- * 
+ *
  * @author Venkaiah Chowdary Koneru
  */
 public abstract class ZebraBarCode extends ZebraElement {
@@ -37,7 +37,6 @@ public abstract class ZebraBarCode extends ZebraElement {
 
     /**
      * Parameters used to print text( default on bellow)
-     * 
      */
     private boolean showTextInterpretation = true;
 
@@ -49,217 +48,193 @@ public abstract class ZebraBarCode extends ZebraElement {
     private String text;
 
     /**
-     * 
      * @param positionX
      * @param positionY
      * @param text
      */
     public ZebraBarCode(int positionX, int positionY, String text) {
-	this.positionX = positionX;
-	this.positionY = positionY;
-	this.text = text;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.text = text;
     }
 
     /**
      * Default Constructeur width position and text
-     * 
-     * @param positionX
-     *            left margin (explain in dots)
-     * @param positionY
-     *            top margin (explain in dots)
-     * @param text
-     *            code to write
-     * @param barCodeHeigth
-     *            height of code bar
+     *
+     * @param positionX     left margin (explain in dots)
+     * @param positionY     top margin (explain in dots)
+     * @param text          code to write
+     * @param barCodeHeigth height of code bar
      */
     public ZebraBarCode(int positionX, int positionY, String text, int barCodeHeigth) {
-	this.positionX = positionX;
-	this.positionY = positionY;
-	this.barCodeHeigth = barCodeHeigth;
-	this.text = text;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.barCodeHeigth = barCodeHeigth;
+        this.text = text;
     }
 
     /**
      * Default Constructeur width position and text
-     * 
-     * @param positionX
-     *            left margin (explain in dots)
-     * @param positionY
-     *            top margin (explain in dots)
-     * @param text
-     *            code to write
-     * @param barCodeHeigth
-     *            height of code bar
-     * @param barCodeWidth
-     *            width(optionnal) of code bar
-     * @param wideBarRatio
-     *            wide bar to narrow bar width ratio
+     *
+     * @param positionX     left margin (explain in dots)
+     * @param positionY     top margin (explain in dots)
+     * @param text          code to write
+     * @param barCodeHeigth height of code bar
+     * @param barCodeWidth  width(optionnal) of code bar
+     * @param wideBarRatio  wide bar to narrow bar width ratio
      */
     public ZebraBarCode(int positionX, int positionY, String text, int barCodeHeigth, int moduleWidth,
-	    int wideBarRatio) {
-	this.positionX = positionX;
-	this.positionY = positionY;
-	this.barCodeHeigth = barCodeHeigth;
-	this.text = text;
-	this.moduleWidth = moduleWidth;
-	this.wideBarRatio = wideBarRatio;
+                        int wideBarRatio) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.barCodeHeigth = barCodeHeigth;
+        this.text = text;
+        this.moduleWidth = moduleWidth;
+        this.wideBarRatio = wideBarRatio;
     }
 
     /**
      * Default Constructor width position and text
-     * 
-     * @param positionX
-     *            left margin (explain in dots)
-     * @param positionY
-     *            top margin (explain in dots)
-     * @param text
-     *            code to write
-     * @param barCodeHeigth
-     *            height of code bar
-     * @param showTextInterpretation
-     *            true to print interpretation line
-     * @param moduleWidth
-     *            width(optionnal) of code bar
-     * @param wideBarRatio
-     *            wide bar to narrow bar width ratio
+     *
+     * @param positionX              left margin (explain in dots)
+     * @param positionY              top margin (explain in dots)
+     * @param text                   code to write
+     * @param barCodeHeigth          height of code bar
+     * @param showTextInterpretation true to print interpretation line
+     * @param moduleWidth            width(optionnal) of code bar
+     * @param wideBarRatio           wide bar to narrow bar width ratio
      */
     public ZebraBarCode(int positionX, int positionY, String text, int barCodeHeigth, boolean showTextInterpretation,
-	    int moduleWidth, int wideBarRatio) {
-	this.positionX = positionX;
-	this.positionY = positionY;
-	this.barCodeHeigth = barCodeHeigth;
-	this.showTextInterpretation = showTextInterpretation;
-	this.text = text;
-	this.moduleWidth = moduleWidth;
-	this.wideBarRatio = wideBarRatio;
+                        int moduleWidth, int wideBarRatio) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.barCodeHeigth = barCodeHeigth;
+        this.showTextInterpretation = showTextInterpretation;
+        this.text = text;
+        this.moduleWidth = moduleWidth;
+        this.wideBarRatio = wideBarRatio;
     }
 
     /**
      * Constructeur used to print text (above or below) with code
-     * 
-     * @param positionX
-     *            left margin (explain in dots)
-     * @param positionY
-     *            top margin (explain in dots)
-     * @param text
-     *            code to write
-     * @param barCodeHeigth
-     *            height of code bar
-     * @param showTextInterpretation
-     *            true to print interpretation line
-     * @param showTextInterpretationAbove
-     *            true to add above, false to add below
+     *
+     * @param positionX                   left margin (explain in dots)
+     * @param positionY                   top margin (explain in dots)
+     * @param text                        code to write
+     * @param barCodeHeigth               height of code bar
+     * @param showTextInterpretation      true to print interpretation line
+     * @param showTextInterpretationAbove true to add above, false to add below
      */
     public ZebraBarCode(int positionX, int positionY, String text, int barCodeHeigth, boolean showTextInterpretation,
-	    boolean showTextInterpretationAbove) {
-	this.positionX = positionX;
-	this.positionY = positionY;
-	this.barCodeHeigth = barCodeHeigth;
-	this.text = text;
-	this.showTextInterpretation = showTextInterpretation;
-	this.showTextInterpretationAbove = showTextInterpretationAbove;
+                        boolean showTextInterpretationAbove) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.barCodeHeigth = barCodeHeigth;
+        this.text = text;
+        this.showTextInterpretation = showTextInterpretation;
+        this.showTextInterpretationAbove = showTextInterpretationAbove;
     }
 
     public StringBuilder getStartZplCodeBuilder() {
-	StringBuilder zpl = new StringBuilder();
-	// On précise la position
-	zpl.append(getZplCodePosition());
-	zpl.append("\n");
-	if (moduleWidth != null) {
-	    zpl.append(ZplUtils.zplCommandSautLigne("BY", moduleWidth, wideBarRatio, barCodeHeigth));
-	}
-	return zpl;
+        StringBuilder zpl = new StringBuilder();
+        // On précise la position
+        zpl.append(getZplCodePosition());
+        zpl.append("\n");
+        if (moduleWidth != null) {
+            zpl.append(ZplUtils.zplCommandSautLigne("BY", moduleWidth, wideBarRatio, barCodeHeigth));
+        }
+        return zpl;
     }
 
     /**
      * Used to draw label preview. This method should be overloader by child
      * class.
-     * 
+     * <p>
      * Default draw a rectangle
-     * 
+     *
      * @param graphic
      */
     public void drawPreviewGraphic(PrinterOptions printerOptions, Graphics2D graphic) {
-	int top = 0;
-	int left = 0;
-	if (positionX != null) {
-	    left = ZplUtils.convertPointInPixel(positionX);
-	}
-	if (positionY != null) {
-	    top = ZplUtils.convertPointInPixel(positionY);
-	}
-	graphic.setColor(Color.BLACK);
+        int top = 0;
+        int left = 0;
+        if (positionX != null) {
+            left = ZplUtils.convertPointInPixel(positionX);
+        }
+        if (positionY != null) {
+            top = ZplUtils.convertPointInPixel(positionY);
+        }
+        graphic.setColor(Color.BLACK);
 
-	Font font = new Font("Arial", Font.BOLD, barCodeHeigth / 2);
+        Font font = new Font("Arial", Font.BOLD, barCodeHeigth / 2);
 
-	graphic.drawRect(left, top,
-		ZplUtils.convertPointInPixel(Math.round(moduleWidth * wideBarRatio * 9 * text.length())),
-		ZplUtils.convertPointInPixel(barCodeHeigth));
+        graphic.drawRect(left, top,
+                ZplUtils.convertPointInPixel(Math.round(moduleWidth * wideBarRatio * 9 * text.length())),
+                ZplUtils.convertPointInPixel(barCodeHeigth));
 
-	drawTopString(graphic, font, text, left, top);
+        drawTopString(graphic, font, text, left, top);
     }
 
     public Integer getBarCodeWidth() {
-	return moduleWidth;
+        return moduleWidth;
     }
 
     public Integer getBarCodeHeigth() {
-	return barCodeHeigth;
+        return barCodeHeigth;
     }
 
     public Integer getWideBarRatio() {
-	return wideBarRatio;
+        return wideBarRatio;
     }
 
     public ZebraRotation getZebraRotation() {
-	return zebraRotation;
+        return zebraRotation;
     }
 
     public boolean isShowTextInterpretation() {
-	return showTextInterpretation;
+        return showTextInterpretation;
     }
 
     public boolean isShowTextInterpretationAbove() {
-	return showTextInterpretationAbove;
+        return showTextInterpretationAbove;
     }
 
     public String getText() {
-	return text;
+        return text;
     }
 
     public ZebraBarCode setBarCodeWidth(Integer barCodeWidth) {
-	this.moduleWidth = barCodeWidth;
-	return this;
+        this.moduleWidth = barCodeWidth;
+        return this;
     }
 
     public ZebraBarCode setBarCodeHeigth(Integer barCodeHeigth) {
-	this.barCodeHeigth = barCodeHeigth;
-	return this;
+        this.barCodeHeigth = barCodeHeigth;
+        return this;
     }
 
     public ZebraBarCode setWideBarRatio(Integer wideBarRatio) {
-	this.wideBarRatio = wideBarRatio;
-	return this;
+        this.wideBarRatio = wideBarRatio;
+        return this;
     }
 
     public ZebraBarCode setZebraRotation(ZebraRotation zebraRotation) {
-	this.zebraRotation = zebraRotation;
-	return this;
+        this.zebraRotation = zebraRotation;
+        return this;
     }
 
     public ZebraBarCode setShowTextInterpretation(boolean showTextInterpretation) {
-	this.showTextInterpretation = showTextInterpretation;
-	return this;
+        this.showTextInterpretation = showTextInterpretation;
+        return this;
     }
 
     public ZebraBarCode setShowTextInterpretationAbove(boolean showTextInterpretationAbove) {
-	this.showTextInterpretationAbove = showTextInterpretationAbove;
-	return this;
+        this.showTextInterpretationAbove = showTextInterpretationAbove;
+        return this;
     }
 
     public ZebraBarCode setText(String text) {
-	this.text = text;
-	return this;
+        this.text = text;
+        return this;
     }
 
 }

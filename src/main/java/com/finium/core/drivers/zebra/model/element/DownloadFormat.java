@@ -1,6 +1,6 @@
 /*
  * Copyright © 2016, Finium Sdn Bhd, All Rights Reserved
- * 
+ *
  * DownloadFormat.java
  * Modification History
  * *************************************************************
@@ -41,7 +41,7 @@ import com.finium.core.drivers.zebra.zpl.support.ZplUtils;
  * Value: if a name is not specified, UNKNOWN is used<br>
  * x = extension. Default Format: .ZPL<br>
  * </code>
- * 
+ *
  * @author Venkaiah Chowdary Koneru
  */
 public class DownloadFormat extends ZebraElement {
@@ -51,95 +51,90 @@ public class DownloadFormat extends ZebraElement {
     private String text;
 
     /**
-     * 
+     *
      */
     public DownloadFormat(String imageName, String text) {
-	if (imageName != null && imageName.trim().isEmpty()) {
-	    this.imageName = imageName.trim();
-	}
-	this.text = text;
+        if (imageName != null && imageName.trim().isEmpty()) {
+            this.imageName = imageName.trim();
+        }
+        this.text = text;
     }
 
     /**
      * @return the deviceToStoreImage
      */
     public String getDeviceToStoreImage() {
-	return deviceToStoreImage;
+        return deviceToStoreImage;
     }
 
     /**
-     * @param deviceToStoreImage
-     *            the deviceToStoreImage to set
+     * @param deviceToStoreImage the deviceToStoreImage to set
      */
     public void setDeviceToStoreImage(String deviceToStoreImage) {
-	this.deviceToStoreImage = deviceToStoreImage;
+        this.deviceToStoreImage = deviceToStoreImage;
     }
 
     /**
      * @return the imageName
      */
     public String getImageName() {
-	return imageName;
+        return imageName;
     }
 
     /**
-     * @param imageName
-     *            the imageName to set
+     * @param imageName the imageName to set
      */
     public void setImageName(String imageName) {
-	if (imageName != null && imageName.trim().isEmpty()) {
-	    this.imageName = imageName.trim();
-	} else {
-	    this.imageName = "UNKNOWN";
-	}
+        if (imageName != null && imageName.trim().isEmpty()) {
+            this.imageName = imageName.trim();
+        } else {
+            this.imageName = "UNKNOWN";
+        }
     }
 
     /**
      * @return the extension
      */
     public String getExtension() {
-	return extension;
+        return extension;
     }
 
     /**
-     * @param extension
-     *            the extension to set
+     * @param extension the extension to set
      */
     public void setExtension(String extension) {
-	this.extension = extension;
+        this.extension = extension;
     }
 
     /**
      * @return the text
      */
     public String getText() {
-	return text;
+        return text;
     }
 
     /**
-     * @param text
-     *            the text to set
+     * @param text the text to set
      */
     public void setText(String text) {
-	this.text = text;
+        this.text = text;
     }
 
     /**
-     * 
      * @return
      */
     @Override
     public String getZplCode() {
-	StringBuilder zpl = new StringBuilder(ZplUtils.zplCommandSautLigne(START_FMT.name()));
-	zpl.append(ZplUtils.zplCommand(DOWNLOAD_FMT.name()));
-	zpl.append(this.deviceToStoreImage);
-	zpl.append(this.imageName);
-	zpl.append(this.extension);
-	zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.name()));
-	zpl.append(this.text);
-	zpl.append("\n");
-	zpl.append(ZplUtils.zplCommandSautLigne(END_FMT.name()));
+        StringBuilder zpl = new StringBuilder(ZplUtils.zplCommandSautLigne(START_FMT.name()));
+        zpl.append(ZplUtils.zplCommand(DOWNLOAD_FMT.getCode()));
+        zpl.append(this.deviceToStoreImage);
+        zpl.append(this.imageName);
+        zpl.append(this.extension);
+        zpl.append(ZplUtils.zplCommandSautLigne(FIELD_SEPERATOR.getCode()));
+        zpl.append(this.text);
+        zpl.append("\n");
+        zpl.append(ZplUtils.zplCommandSautLigne(END_FMT.getCode()));
 
-	return zpl.toString();
+        return zpl.toString();
     }
 }
